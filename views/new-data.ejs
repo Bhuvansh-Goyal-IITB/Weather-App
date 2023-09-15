@@ -22,22 +22,18 @@
 <div class="forecast">
     <div class="forecast-card selected">
         <div class="forecast-day">Today</div>
-        <div class="forecast-temperature"><%= data.temperature %><span class="fdcel">°C</span></div>
-    </div>
-    <div class="forecast-card">
-        <div class="forecast-day"><%= data["1D"] %></div>
         <div class="forecast-temperature"><%= data["1T"] %><span class="fdcel">°C</span></div>
     </div>
     <div class="forecast-card">
-        <div class="forecast-day"><%= data["2D"] %></div>
+        <div class="forecast-day"><%= data["1D"] %></div>
         <div class="forecast-temperature"><%= data["2T"] %><span class="fdcel">°C</span></div>
     </div>
     <div class="forecast-card">
-        <div class="forecast-day"><%= data["3D"] %></div>
+        <div class="forecast-day"><%= data["2D"] %></div>
         <div class="forecast-temperature"><%= data["3T"] %><span class="fdcel">°C</span></div>
     </div>
     <div class="forecast-card">
-        <div class="forecast-day"><%= data["4D"] %></div>
+        <div class="forecast-day"><%= data["3D"] %></div>
         <div class="forecast-temperature"><%= data["4T"] %><span class="fdcel">°C</span></div>
     </div>
 </div>

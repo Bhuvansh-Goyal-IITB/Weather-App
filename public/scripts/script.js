@@ -77,24 +77,43 @@ const forecastCardUI = () => {
         return card.classList.contains("selected")
     });
 
-    forecastCards.forEach((card) => {
-        card.addEventListener("click", (e) => {
+    for (let i = 0; i < forecastCards.length; i++) {
+        forecastCards[i].addEventListener("click", (e) => {
             if (e.target == currentCard) return;
             else {
                 currentCard.classList.remove("selected");
                 currentCard = e.target;
                 currentCard.classList.add("selected");
-
-                loadForecastData(4);
+                
+                loadForecastData(i, document.querySelector(".forecast").innerHTML);
             }
         });
-    });
+    }
 }
 
 forecastCardUI();
 
-const loadForecastData = async (forecastIndex) => {
-    // load data for different dates
+const loadForecastData = async (forecastIndex, forecastPanelHTML) => {
+    try {
+        let data = new URLSearchParams();
+        data.append("day", forecastIndex);
+
+        let result = await fetch("/forecast", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: data.toString()
+        });
+
+        let html = await result.text();
+        let completeHTML = html +  `<div class="forecast">${forecastPanelHTML}</div>`;
+        document.querySelector(".container").innerHTML = completeHTML;
+
+        forecastCardUI();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -105,7 +124,7 @@ const updatePageLocation = async (latLng, locMain, locSecondary) => {
         data.append("locMain", locMain);
         data.append("locSecondary", locSecondary);
 
-        let result = await fetch("/", {
+        let result = await fetch("/location", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

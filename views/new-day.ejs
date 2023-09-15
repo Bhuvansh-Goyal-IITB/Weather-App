@@ -1,0 +1,21 @@
+<div class="left-top">
+    <div class="condition"><%= data.condition %></div>
+    <div class="temperature"><%= data.temperature %><span class="dcel">°C</span></div>
+    <div class="left-top-bottom">
+        <div><p><i class="fa-solid fa-droplet"></i></p><p><%= data.humidity %> %</p></div>
+        <div><p><i class="fa-solid fa-wind"></i></p><p><%= data.windSpeed %> <span class="kmh">km/h</span></p></div>
+    </div>
+</div>
+<div class="left-bottom">
+    <div class="lb-left">
+        <div><p>AQI</p><p><%= data.aqiRating %></p></div>
+        <div><p>PM<span class="pm2">2.5</span></p><p><%= data.pm2 %><span class="ugm3">ug/m<sup>3</sup></span></p></div>
+    </div>
+    <div class="earth">
+        <i class="fa-solid fa-earth-americas"></i>
+    </div>
+</div>
+<div class="location">
+    <div class="main"><%= data.main %>,</div>
+    <div class="secondary"><%= data.secondary %></div>
+</div>

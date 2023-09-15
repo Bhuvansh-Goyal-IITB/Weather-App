@@ -17,34 +17,39 @@ app.get("/", async (req, res) => {
     res.render("index.ejs");
 });
 
-app.post("/", async (req, res) => {
+app.post("/forecast", async (req, res) => {
+    let forecastIndex = parseInt(req.body["day"]);
+    let templateData = {...currentWeatherData[forecastIndex]};
+
+    console.log(templateData);
+    res.render("new-day.ejs", { data: templateData });
+});
+
+app.post("/location", async (req, res) => {
     let latLng = req.body["latLng"];
 
     const API_KEY = process.env.WEATHER_API_KEY;
-    const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${latLng}&days=4&aqi=yes&alerts=no`;
+    const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${latLng}&days=3&aqi=yes&alerts=no`;
 
     try {
         let result = await axios.get(API_URL);
         let data = result.data;
 
         currentWeatherData = [];
-        pushWeatherData(data["current"], currentWeatherData);
+        pushWeatherData(req.body["locMain"], req.body["locSecondary"], data["current"], currentWeatherData);
         
-        data["forecast"]["forecastday"].forEach((day) => {
-            pushWeatherData(day["day"], currentWeatherData);
-        })
+        data["forecast"]["forecastday"].forEach(day => {
+            pushWeatherData(req.body["locMain"], req.body["locSecondary"], day["day"], currentWeatherData);
+        });
 
         let templateData = {...currentWeatherData[0]};
 
-        templateData["main"] = req.body["locMain"];
-        templateData["secondary"] = req.body["locSecondary"];
-
-        for (let i = 1; i < currentWeatherData.length; i++) {            
-            templateData[`${i}T`] = currentWeatherData[i].temperature;
+        for (let i = 0; i < currentWeatherData.length; i++) {            
+            templateData[`${i+1}T`] = currentWeatherData[i].temperature;
             templateData[`${i}D`] = weekday[(new Date().getDay() + i) % 7];
         }
 
-        res.render("new-location.ejs", { data: templateData });
+        res.render("new-data.ejs", { data: templateData });
     } catch (error) {
         console.log(error);
     }
@@ -69,16 +74,18 @@ app.listen(port, () => {
 });
 
 
-function WeatherObjectGenerator(conditionCode, temperature, windSpeed, humidity, aqiIndex, pm2) {
+function WeatherObjectGenerator(main, secondary, conditionCode, temperature, windSpeed, humidity, aqiIndex, pm2) {
+    this.main = main;
+    this.secondary = secondary;
     this.condition = getConditionString(conditionCode);
     this.temperature = Math.round(temperature);
     this.windSpeed = windSpeed;
     this.humidity = humidity;
     this.aqiRating = getAQIRating(aqiIndex);
-    this.pm2 = pm2;
+    this.pm2 = pm2.toFixed(2);
 };
 
-const pushWeatherData = (data, weatherList) => {
+const pushWeatherData = (main, secondary, data, weatherList) => {
     let suffixAvg = "avg";
     let suffixMax = "max";
 
@@ -88,6 +95,8 @@ const pushWeatherData = (data, weatherList) => {
     }
 
     weatherList.push(new WeatherObjectGenerator(
+        main, 
+        secondary,
         data["condition"]["code"],
         data[`${suffixAvg}temp_c`],
         data[`${suffixMax}wind_kph`],

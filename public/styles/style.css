@@ -287,8 +287,6 @@ input {
     background: var(--background);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5.5px);
-    -webkit-backdrop-filter: blur(5.5px);
 
     transition: all 100ms ease-in-out;
 }
@@ -318,8 +316,6 @@ input:focus {
     background: var(--background-dropdown); 
     border-radius: var(--border-radius);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5.5px);
-    -webkit-backdrop-filter: blur(5.5px);
 
     display: flex;
     flex-direction: column;
