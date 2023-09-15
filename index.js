@@ -21,7 +21,6 @@ app.post("/forecast", async (req, res) => {
     let forecastIndex = parseInt(req.body["day"]);
     let templateData = {...currentWeatherData[forecastIndex]};
 
-    console.log(templateData);
     res.render("new-day.ejs", { data: templateData });
 });
 

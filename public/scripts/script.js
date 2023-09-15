@@ -1,30 +1,13 @@
 const input = document.querySelector("input#locSearch");
 const dropDownContainer = document.querySelector(".dropdown-menu");
 
-document.addEventListener("click", (e) => {
-    if (e.target === dropDownContainer || e.target.parentElement === dropDownContainer) return;
-    if (e.target != input) hideDropDown(dropDownContainer);
-});
-
-
-input.addEventListener("focus", (e) => {
-    if (e.target.value.length >= 3) {
-        showDropDown(dropDownContainer);
-    }
-});
-
-input.addEventListener("input", async (e) => {
-    if (e.target.value.length < 3) {
-        hideDropDown(dropDownContainer);
-        return;
-    }
-
+const updateSearchResults = async (text) => {
     clearDropDown(dropDownContainer);
     showDropDown(dropDownContainer);
 
     try {
         let reqData = new URLSearchParams();
-        reqData.append("text", e.target.value);
+        reqData.append("text", text);
 
         const result = await fetch("/autocomplete", {
             method: "POST",
@@ -69,7 +52,7 @@ input.addEventListener("input", async (e) => {
     } catch (error) {
         console.log(error);
     }
-});
+}
 
 const forecastCardUI = () => {
     let forecastCards = Array.from(document.querySelectorAll(".forecast-card"));
@@ -174,3 +157,37 @@ const showDropDown = (dropDownContainer) => {
 const hideDropDown = (dropDownContainer) => {
     dropDownContainer.classList.remove("active");
 };
+
+const debounce = (func, delay) => {
+    let timerId;
+
+    return (...args) => {
+        clearTimeout(timerId);
+        timerId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    }
+}
+
+document.addEventListener("click", (e) => {
+    if (e.target === dropDownContainer || e.target.parentElement === dropDownContainer) return;
+    if (e.target != input) hideDropDown(dropDownContainer);
+});
+
+
+input.addEventListener("focus", (e) => {
+    if (e.target.value.length >= 3) {
+        showDropDown(dropDownContainer);
+    }
+});
+
+const updateSearchResultsDebounce = debounce(updateSearchResults, 1000);
+
+input.addEventListener("input", async (e) => {
+    if (e.target.value.length < 3) {
+        hideDropDown(dropDownContainer);
+        return;
+    }
+
+    updateSearchResultsDebounce(e.target.value);
+});
