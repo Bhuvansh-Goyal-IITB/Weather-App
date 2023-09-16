@@ -310,7 +310,7 @@ input:focus {
 
     z-index: 1;
 
-    padding: 5px;
+    padding: 5px 8px;
     width: 120%;
 
     background: var(--background-dropdown); 
@@ -342,10 +342,14 @@ input:focus {
     overflow-wrap: break-word;
     padding: 5px;
 
-    transition: transform 150ms ease-in-out;
+    border-radius: var(--border-radius);
+
+    transition: all 150ms ease-in-out;
 }
 
 .dropdown-item:hover {
+    background-color: #00000070;
+    color: white;
     transform: scale(1.03);
     cursor: pointer;
 }

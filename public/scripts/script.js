@@ -1,7 +1,24 @@
 const input = document.querySelector("input#locSearch");
 const dropDownContainer = document.querySelector(".dropdown-menu");
 
+const highlightUserInput = (userInput, text) => {
+    let index = text.toLowerCase().search(userInput.toLowerCase());
+
+    let finalOutput = null;
+
+    if (index > -1) {
+        finalOutput = "";
+        finalOutput += text.substring(0, index);
+        finalOutput += `<strong>${text.substring(index, index + userInput.length)}</strong>`;
+        finalOutput += text.slice(index + userInput.length);
+    }
+
+    return finalOutput || text;
+}
+
 const updateSearchResults = async (text) => {
+    if (input.value < 3) return;
+
     clearDropDown(dropDownContainer);
     showDropDown(dropDownContainer);
 
@@ -20,7 +37,7 @@ const updateSearchResults = async (text) => {
         let data = await result.json();
 
         data["results"].forEach(place => {
-            let newDiv = divCreator(place.formatted);
+            let newDiv = divCreator(highlightUserInput(text, place.formatted));
             newDiv.addEventListener("click", (e) => {
                 input.blur();
                 input.value = "";
@@ -99,7 +116,6 @@ const loadForecastData = async (forecastIndex, forecastPanelHTML) => {
     }
 }
 
-
 const updatePageLocation = async (latLng, locMain, locSecondary) => {
     try {
         let data = new URLSearchParams();
@@ -173,7 +189,6 @@ document.addEventListener("click", (e) => {
     if (e.target === dropDownContainer || e.target.parentElement === dropDownContainer) return;
     if (e.target != input) hideDropDown(dropDownContainer);
 });
-
 
 input.addEventListener("focus", (e) => {
     if (e.target.value.length >= 3) {
