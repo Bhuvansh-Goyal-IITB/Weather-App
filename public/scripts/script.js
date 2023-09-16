@@ -196,7 +196,7 @@ input.addEventListener("focus", (e) => {
     }
 });
 
-const updateSearchResultsDebounce = debounce(updateSearchResults, 1000);
+const updateSearchResultsDebounce = debounce(updateSearchResults, 500);
 
 input.addEventListener("input", async (e) => {
     if (e.target.value.length < 3) {

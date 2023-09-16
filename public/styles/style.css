@@ -1,7 +1,6 @@
 :root {
     --background: rgb(240, 240, 240);
     --background-inner: rgba(255, 255, 255);
-    --background-aqi: rgba(38, 255, 0);
     --background-dropdown: rgba(240, 240, 240);
     --border-radius: 5px;
 }
@@ -31,7 +30,7 @@ html, body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     min-height: 300px;
 
     display: grid;
@@ -79,7 +78,9 @@ html, body {
     display: flex;
     
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+
+    padding: 0.4rem;
 
     gap: 0.5rem;   
 }
@@ -101,6 +102,8 @@ html, body {
     font-size: 2.4rem;
 
     padding: 0 2rem;
+    
+    text-align: left;
 }
 
 .temperature {
@@ -129,6 +132,8 @@ html, body {
 }
 
 .location {
+    min-width: 300px;
+
     padding: 0.8rem;
 
     font-size: 1.6rem;
@@ -153,7 +158,6 @@ html, body {
 
     font-size: 1.3rem;
 
-    background: var(--background-aqi);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 
@@ -189,6 +193,10 @@ html, body {
 .lb-left div {
     display: flex;
     justify-content: space-between;
+}
+
+.lb-left div p:first-child {
+    padding-right: 1rem;
 }
 
 .pm2 {
@@ -348,8 +356,30 @@ input:focus {
 }
 
 .dropdown-item:hover {
-    background-color: #00000070;
+    background-color: #00000090;
     color: white;
     transform: scale(1.03);
     cursor: pointer;
+}
+
+.green {
+    background-color: #00e400;
+}
+ 
+.yellow {
+    background-color: #ffff00;
+}
+
+.orange {
+    background-color: #ff7e00;
+}
+
+.red {
+    background-color: red;
+}
+.purple {
+    background-color: #8f3f97;
+}
+.maroon {
+    background-color: #7e0023;
 }

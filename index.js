@@ -81,6 +81,7 @@ function WeatherObjectGenerator(main, secondary, conditionCode, temperature, win
     this.windSpeed = windSpeed;
     this.humidity = humidity;
     this.aqiRating = getAQIRating(aqiIndex);
+    this.aqiColor = getAQIColor(aqiIndex);
     this.pm2 = pm2.toFixed(2);
 };
 
@@ -106,21 +107,102 @@ const pushWeatherData = (main, secondary, data, weatherList) => {
 };
 
 const getConditionString = (conditionCode) => {
-    return "Mist";
+    return conditionJSON.find((condition) => condition.code === conditionCode).condition;
 };
 
 const getAQIRating = (aqiIndex) => {
-    return "Good";
+    switch (aqiIndex) {
+        case 1:
+            return "Good";
+            break;
+        case 2:
+             return "Moderate";
+            break;
+        case 3:
+            return "Unhealthy for sensitive";
+            break;
+        case 4:
+            return "Unhealthy";
+            break;
+        case 5:
+            return "Very Unhealthy";
+            break;
+        case 6:
+            return "Hazardous";
+            break;
+    }
 };
 
-// [
-//     1000, 1003, 1006, 1009, 1030, 1063,
-//     1066, 1069, 1072, 1087, 1114, 1117,
-//     1135, 1147, 1150, 1153, 1168, 1171,
-//     1180, 1183, 1186, 1189, 1192, 1195,
-//     1198, 1201, 1204, 1207, 1210, 1213,
-//     1216, 1219, 1222, 1225, 1237, 1240,
-//     1243, 1246, 1249, 1252, 1255, 1258,
-//     1261, 1264, 1273, 1276, 1279, 1282
-//   ]
-  
+const getAQIColor = (aqiIndex) => {
+    switch (aqiIndex) {
+        case 1:
+            return "green";
+            break;
+        case 2:
+             return "yellow";
+            break;
+        case 3:
+            return "orange";
+            break;
+        case 4:
+            return "red";
+            break;
+        case 5:
+            return "purple";
+            break;
+        case 6:
+            return "maroon";
+            break;
+    }
+}
+
+let conditionJSON = [
+    { code: 1000, condition: 'Clear' },
+    { code: 1003, condition: 'Partly cloudy' },
+    { code: 1006, condition: 'Cloudy' },
+    { code: 1009, condition: 'Overcast' },
+    { code: 1030, condition: 'Mist' },
+    { code: 1063, condition: 'Patchy rain' },
+    { code: 1066, condition: 'Patchy snow' },
+    { code: 1069, condition: 'Patchy sleet' },
+    { code: 1072, condition: 'Patchy freezing drizzle' },
+    { code: 1087, condition: 'Thundery outbreaks' },
+    { code: 1114, condition: 'Blowing snow' },
+    { code: 1117, condition: 'Blizzard' },
+    { code: 1135, condition: 'Fog' },
+    { code: 1147, condition: 'Freezing fog' },
+    { code: 1150, condition: 'Patchy light drizzle' },
+    { code: 1153, condition: 'Light drizzle' },
+    { code: 1168, condition: 'Freezing drizzle' },
+    { code: 1171, condition: 'Heavy freezing drizzle' },
+    { code: 1180, condition: 'Patchy light rain' },
+    { code: 1183, condition: 'Light rain' },
+    { code: 1186, condition: 'Moderate rain' },
+    { code: 1189, condition: 'Moderate rain' },
+    { code: 1192, condition: 'Heavy rain' },
+    { code: 1195, condition: 'Heavy rain' },
+    { code: 1198, condition: 'Light freezing rain' },
+    { code: 1201, condition: 'Moderate freezing rain' },
+    { code: 1204, condition: 'Light sleet' },
+    { code: 1207, condition: 'Moderate sleet' },
+    { code: 1210, condition: 'Patchy light snow' },
+    { code: 1213, condition: 'Light snow' },
+    { code: 1216, condition: 'Patchy moderate snow' },
+    { code: 1219, condition: 'Moderate snow' },
+    { code: 1222, condition: 'Patchy heavy snow' },
+    { code: 1225, condition: 'Heavy snow' },
+    { code: 1237, condition: 'Ice pellets' },
+    { code: 1240, condition: 'Light rain shower' },
+    { code: 1243, condition: 'Moderate rain shower' },
+    { code: 1246, condition: 'Torrential rain shower' },
+    { code: 1249, condition: 'Light sleet showers' },
+    { code: 1252, condition: 'Moderate sleet showers' },
+    { code: 1255, condition: 'Light snow showers' },
+    { code: 1258, condition: 'Moderate snow showers' },
+    { code: 1261, condition: 'Light showers of ice pellets' },
+    { code: 1264, condition: 'Moderate showers of ice pellets' },
+    { code: 1273, condition: 'Patchy light rain' },
+    { code: 1276, condition: 'Moderate rain with thunder' },
+    { code: 1279, condition: 'Patchy light snow' },
+    { code: 1282, condition: 'Moderate snow' }
+]

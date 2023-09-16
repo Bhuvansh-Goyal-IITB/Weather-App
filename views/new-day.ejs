@@ -6,7 +6,7 @@
         <div><p><i class="fa-solid fa-wind"></i></p><p><%= data.windSpeed %> <span class="kmh">km/h</span></p></div>
     </div>
 </div>
-<div class="left-bottom">
+<div class="left-bottom <%= data.aqiColor %>">
     <div class="lb-left">
         <div><p>AQI</p><p><%= data.aqiRating %></p></div>
         <div><p>PM<span class="pm2">2.5</span></p><p><%= data.pm2 %><span class="ugm3">ug/m<sup>3</sup></span></p></div>
