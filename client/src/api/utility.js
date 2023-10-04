@@ -1,10 +1,12 @@
+const BASE_URL = "https://weather-app-backend-gy43.onrender.com"
+
 const fetchWeatherData = async (lat, lon) => {
     try {
         let reqData = new URLSearchParams()
         reqData.append("lat", lat)
         reqData.append("lon", lon)
 
-        const result = await fetch("http://localhost:3000/weather", {
+        const result = await fetch(`${BASE_URL}/weather`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -25,7 +27,7 @@ const fetchAqiData = async (lat, lon) => {
         reqData.append("lat", lat)
         reqData.append("lon", lon)
 
-        const result = await fetch("http://localhost:3000/aqi", {
+        const result = await fetch(`${BASE_URL}/aqi`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -47,7 +49,7 @@ const fetchAutocompleteResults = async (location) => {
         let reqData = new URLSearchParams()
         reqData.append("text", location)
 
-        const result = await fetch("http://localhost:3000/autocomplete", {
+        const result = await fetch(`${BASE_URL}/autocomplete`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
