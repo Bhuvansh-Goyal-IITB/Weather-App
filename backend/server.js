@@ -8,7 +8,7 @@ dotenv.config()
 const app = express()
 const port = 3000
 
-app.use(cors({origin: "http://localhost:5173"}))
+app.use(cors({origin: "https://weather-app-au0t.onrender.com"}))
 app.use(express.urlencoded({extended: false}))
 
 app.post("/weather", async (req, res) => {
