@@ -18,6 +18,12 @@ body, html {
 }
 
 @layer utilities {
+    .background-img {
+        background-image: url("./assets/bg.jpg");
+        background-repeat: no-repeat;
+        background-size: 100vw;
+    }
+
     .green {
         @apply bg-green-500
     }

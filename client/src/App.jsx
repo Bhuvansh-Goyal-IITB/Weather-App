@@ -46,7 +46,7 @@ function App() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-3 justify-center items-center bg-slate-800 w-full h-screen">
+    <div className="flex flex-col gap-3 justify-center items-center background-img w-full h-screen">
       <Searchbar 
         setData={setData}
       />
