@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-
 function Dropdown({children, isVisible}) {
 
     return (

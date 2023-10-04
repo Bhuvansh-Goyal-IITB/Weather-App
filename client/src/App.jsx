@@ -8,11 +8,13 @@ import { fetchAqiData, fetchWeatherData, aqiObject } from "./api/utility"
 import Loader from "./components/Loader"
 
 
-const loadNewLocationData = async (data, setData, setLoading) => {
+const loadNewLocationData = async (data, setData, setLoading, setLoadText) => {
   let [lat, lon, main, secondary] = data
 
   let weatherData = await fetchWeatherData(lat, lon)
   let aqiData = await fetchAqiData(lat, lon)
+
+  if (weatherData === null || aqiData === null) setLoadText("Error connecting to backend")
 
   setData({
     temp: parseInt(weatherData["main"]["temp"]),
@@ -24,23 +26,23 @@ const loadNewLocationData = async (data, setData, setLoading) => {
     aqi: aqiObject[parseInt(aqiData["list"][0]["main"]["aqi"])]
   })
 
-  console.log(lat)
-
   setLoading(false)
 }
 
 function App() {
-  const [isLoading, setIsLoading] = useState(null)
+  const [loadText, setLoadText] = useState("Search for a location")
+  const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState([])
   const [weatherData, setWeatherData] = useState({})
-
+  
   useEffect(() => {
+    setLoadText("Loading...")
     setIsLoading(true)
-    loadNewLocationData(data, setWeatherData, setIsLoading)
+    loadNewLocationData(data, setWeatherData, setIsLoading, setLoadText)
   }, [data])
 
   useEffect(() => {
-    setIsLoading(null)
+    setLoadText("Search for a location")
   }, [])
 
   return (
@@ -49,7 +51,7 @@ function App() {
         setData={setData}
       />
       <Container>
-        {(isLoading===null || isLoading) ? <Loader firstTime= {isLoading === null} /> : (
+        {isLoading ? <Loader text={loadText} /> : (
           <>
             <Weather 
               temp={weatherData.temp}
